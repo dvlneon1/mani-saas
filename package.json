@@ -2,7 +2,7 @@
   "name": "nail-designers-app",
   "private": true,
   "workspaces": [
-    "apps/*",
+    "apps/admin-web",
     "packages/*"
   ],
   "scripts": {
