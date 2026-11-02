@@ -4,12 +4,13 @@ import { getFirestore, Firestore } from 'firebase/firestore';
 import { getStorage, FirebaseStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || '[REDACTED]',
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || '[REDACTED]',
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || '[REDACTED]',
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || '[REDACTED]',
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || '[REDACTED]',
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || '[REDACTED]',
+  apiKey: "AIzaSyDPD4xnKiJwkjltQ5lZHWktoO7GY73Ovb4",
+  authDomain: "mani-saas.firebaseapp.com",
+  projectId: "mani-saas",
+  storageBucket: "mani-saas.firebasestorage.app",
+  messagingSenderId: "4581951359",
+  appId: "1:4581951359:web:fb06699e39dd217e04fc4a",
+  measurementId: "G-X0FHV81MPF",
 };
 
 let app: FirebaseApp;
