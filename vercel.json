@@ -1,0 +1,6 @@
+{
+  "buildCommand": "cd apps/admin-web && npm install --legacy-peer-deps && npx next build",
+  "outputDirectory": "apps/admin-web/.next",
+  "installCommand": "npm install --legacy-peer-deps",
+  "devCommand": "cd apps/admin-web && npm run dev"
+}
