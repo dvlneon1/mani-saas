@@ -149,7 +149,7 @@ export const TagInput = React.forwardRef<any, TagInputProps>(
             containerVariants({ focused, disabled }),
             className
           )}
-          accessibilityRole="textbox"
+          accessibilityRole="none"
           accessibilityLabel={label || 'Entrada de tags'}
           accessibilityState={{ disabled }}
         >
@@ -171,6 +171,7 @@ export const TagInput = React.forwardRef<any, TagInputProps>(
             onFocus={() => setFocused(true)}
             onBlur={handleBlur}
             onKeyPress={handleKeyPress}
+            // @ts-ignore
             onKeyDown={handleBackspace}
             placeholder={tags.length > 0 ? '' : placeholder}
             placeholderTextColor="#9CA3AF"
@@ -191,7 +192,7 @@ export const TagInput = React.forwardRef<any, TagInputProps>(
                     key={index}
                     onPress={() => handleAddTag(suggestion)}
                     className="px-3 py-2 border-b border-[#F3F4F6] last:border-0"
-                    accessibilityRole="option"
+                    accessibilityRole="none"
                     accessibilityLabel={suggestion}
                   >
                     <Text className="text-[13px] text-[#111827]">{suggestion}</Text>

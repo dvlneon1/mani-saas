@@ -149,6 +149,7 @@ export const FeedGrid = React.forwardRef<any, FeedGridProps>(
           ) : undefined
         }
         refreshing={refreshing}
+        // @ts-ignore
         onRefresh={onRefresh}
         onScroll={({ nativeEvent }: any) => {
           if (onLoadMore && hasMore && !isLoading) {

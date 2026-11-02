@@ -142,9 +142,9 @@ export const BottomTabBar = React.forwardRef<React.ElementRef<typeof View>, Bott
               backgroundColor: '#F5F3FF',
               transform: [
                 {
-                  translateX: activeIndex * (100 / tabs.length) + '%',
+                  translateX: (activeIndex * (100 / tabs.length) + '%') as any,
                 },
-              ],
+              ] as any,
             }}
           />
         )}

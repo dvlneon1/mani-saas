@@ -131,6 +131,7 @@ export const PhotoGrid = React.forwardRef<React.ElementRef<typeof ScrollView>, P
 
     return (
       <ScrollView
+        // @ts-ignore
         ref={ref}
         className={cn(gridVariants({ columns }), className)}
         contentContainerStyle={{

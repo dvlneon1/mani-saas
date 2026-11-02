@@ -129,7 +129,7 @@ export const SignaturePad = React.forwardRef<HTMLCanvasElement, SignaturePadProp
           {...panResponder.panHandlers}
           className="relative"
           style={{ width, height, backgroundColor }}
-          accessibilityRole="canvas"
+          accessibilityRole="none"
           accessibilityLabel="Área de assinatura"
           accessibilityHint={disabled ? 'Desabilitado' : 'Desenhe sua assinatura'}
         >

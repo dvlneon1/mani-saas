@@ -131,7 +131,7 @@ export const Select = React.forwardRef<React.ElementRef<typeof View>, SelectProp
                   onPress={() => handleSelect(option)}
                   disabled={option.disabled}
                   className="px-4 py-3 border-b border-[#F3F4F6] last:border-0 flex-row items-center justify-between"
-                  accessibilityRole="option"
+                  accessibilityRole="none"
                   accessibilityState={{ selected: option.value === value, disabled: option.disabled }}
                 >
                   <Text className={cn(

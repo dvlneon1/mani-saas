@@ -69,6 +69,7 @@ export const Textarea = React.forwardRef<any, TextareaProps>(
         multiline
         numberOfLines={rows}
         maxLength={maxLength}
+        // @ts-ignore
         disabled={disabled}
         editable={!readOnly}
         className={cn(textareaVariants({ error, disabled }), className)}

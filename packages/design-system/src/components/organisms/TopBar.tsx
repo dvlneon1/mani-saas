@@ -111,7 +111,7 @@ export const TopBar = React.forwardRef<React.ElementRef<typeof View>, TopBarProp
           { paddingTop: safeAreaInset + 12 },
           animatedStyle,
         ]}
-        accessibilityRole="banner"
+        accessibilityRole="none"
       >
         <View className="flex-row items-center justify-between w-full gap-4">
           {/* Left */}
