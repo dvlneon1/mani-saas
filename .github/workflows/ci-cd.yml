@@ -3,12 +3,10 @@ name: CI/CD Pipeline
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
 
 jobs:
-  typecheck:
-    name: TypeScript Type Check (Admin Web)
+  debug:
+    name: Debug CI Environment
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,23 +14,26 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-      - run: npm install
-      - run: cd apps/admin-web && npm install
-      - run: cd apps/admin-web && npm run typecheck
-
-  build-web:
-    name: Build Admin Web
-    runs-on: ubuntu-latest
-    needs: typecheck
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-      - run: npm install
-      - run: cd apps/admin-web && npm install
-      - run: cd apps/admin-web && npm run build
+      - name: Print environment info
+        run: |
+          echo "=== Node version ==="
+          node --version
+          echo "=== NPM version ==="
+          npm --version
+          echo "=== Workspace dirs ==="
+          ls -la apps/
+          echo "=== admin-web package.json exists? ==="
+          ls -la apps/admin-web/package.json
+          echo "=== admin-web node_modules exists? ==="
+          ls -la apps/admin-web/node_modules/.package-lock.json 2>&1 || echo "not installed yet"
+      - name: Install root deps
+        run: npm install
+      - name: Install admin-web deps
+        run: cd apps/admin-web && npm install
+      - name: Type check admin-web
+        run: cd apps/admin-web && npx tsc --noEmit
+      - name: Build admin-web
+        run: cd apps/admin-web && npm run build
         env:
           NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
           NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ secrets.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}
@@ -41,22 +42,3 @@ jobs:
           NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
           NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
           NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID }}
-
-  deploy-vercel:
-    name: Deploy to Vercel
-    runs-on: ubuntu-latest
-    needs: build-web
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
