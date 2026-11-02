@@ -1,0 +1,46 @@
+```mermaid
+flowchart TD
+    A[Aba Financeiro - Dashboard] --> B[Cards: Saldo, Entradas, Saídas, Impostos]
+    B --> C[Botão + Lançamento Rápido]
+    C --> D[Modal Lançamento]
+    D --> E[Tipo: Entrada / Saída / Transferência]
+    E --> F[Categoria: Serviço, Produto, Aluguel, Material, Imposto, Outro]
+    F --> G[Valor + Data + Descrição]
+    G --> H{Parcelado?}
+    H -->|Sim| I[Definir Parcelas: Qtd, Intervalo, Juros]
+    I --> J[Gerar Lançamentos Futuros]
+    H -->|Não| K[Lançamento Único]
+    J --> L[Salvar no Supabase]
+    K --> L
+    L --> M[Atualizar Dashboard Real-time]
+    M --> N[Toast: Lançamento Salvo]
+    
+    A --> O[Aba Relatórios]
+    O --> P[DRE Mensal: Receitas - Custos = Lucro]
+    P --> Q[Filtro: Mês/Ano, Categoria]
+    Q --> R[Gráfico Barras: Entradas vs Saídas]
+    R --> S[Tabela Detalhada]
+    S --> T[Exportar CSV/PDF]
+    
+    O --> U[Reserva Imposto]
+    U --> V[Configurar %: Simples Nacional / MEI]
+    V --> W[Cálculo Automático por Entrada]
+    W --> X[Lançamento Automático Saída: Reserva Imposto]
+    X --> Y[Saldo Disponível = Saldo - Reserva]
+    Y --> Z[Alerta: Reserva Baixa]
+    
+    A --> AA[Aba Caixa Diário]
+    AA --> AB[Lista Lançamentos do Dia]
+    AB --> AC[Editar/Excluir Lançamento]
+    AC --> AD[Conciliação: Marcar Confirmado]
+    AD --> AE[Fechar Caixa Diário]
+    AE --> AF[Resumo: Total Entradas, Saídas, Saldo Final]
+    
+    style A fill:#8B5CF6,color:#fff
+    style C fill:#EC4899,color:#fff
+    style L fill:#10B981,color:#fff
+    style P fill:#EC4899,color:#fff
+    style W fill:#F97316,color:#fff
+    style Y fill:#EF4444,color:#fff
+    style AE fill:#10B981,color:#fff
+```

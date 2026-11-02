@@ -1,0 +1,37 @@
+```mermaid
+flowchart TD
+    A[Tela Cliente - Botão Anamnese] --> B{Anamnese Existe?}
+    B -->|Não| C[Gerar Link Único + Token]
+    B -->|Sim| D[Visualizar/Editar Existente]
+    C --> E[Compartilhar WhatsApp]
+    E --> F[Cliente Abre Link no Mobile]
+    F --> G[Tela Boas-vindas Anamnese]
+    G --> H[Step 1: Dados Pessoais]
+    H --> I[Nome, CPF, Data Nasc, Telefone, Email]
+    I --> J[Validação CPF/Telefone]
+    J --> K[Step 2: Saúde & Alergias]
+    K --> L[Alergias, Medicamentos, Patologias, Gravidez]
+    L --> M[Checkbox: Termos LGPD]
+    M --> N[Step 3: Preferências & Consentimento]
+    N --> O[Formato Unha, Comprimento, Estilo, Cor Favorita]
+    O --> P[Consentimento Fotos Redes Sociais]
+    P --> Q[Assinatura Digital Canvas]
+    Q --> R[Salvar Assinatura + Timestamp]
+    R --> S[Gerar PDF Anamnese]
+    S --> T[Salvar no Supabase Storage]
+    T --> U[Notificação Push Designer]
+    U --> V[Tela Cliente - Badge: Anamnese Completa]
+    V --> W[Botão Ver PDF]
+    W --> X[Visualizar/Download PDF]
+    
+    D --> Y[Editar Step 1/2/3]
+    Y --> Z[Re-assinar se Dados Saúde Mudaram]
+    Z --> S
+    
+    style A fill:#8B5CF6,color:#fff
+    style C fill:#F97316,color:#fff
+    style Q fill:#EC4899,color:#fff
+    style S fill:#10B981,color:#fff
+    style U fill:#8B5CF6,color:#fff
+    style V fill:#10B981,color:#fff
+```

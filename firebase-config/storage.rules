@@ -1,0 +1,16 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Fotos de galeria - só o dono pode escrever, leitura pública
+    match /galeria/{profissionalId}/{fileName} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == profissionalId;
+    }
+    
+    // Assinaturas de anamnese - só o dono pode escrever
+    match /anamneses/{profissionalId}/{fileName} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == profissionalId;
+    }
+  }
+}

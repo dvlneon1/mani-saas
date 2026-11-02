@@ -1,0 +1,37 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "agendamentos",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {"field": "profissionalId", "order": "ASCENDING"},
+        {"field": "createdAt", "order": "DESCENDING"}
+      ]
+    },
+    {
+      "collectionGroup": "clientes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {"field": "profissionalId", "order": "ASCENDING"},
+        {"field": "name", "order": "ASCENDING"}
+      ]
+    },
+    {
+      "collectionGroup": "financeiro",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {"field": "profissionalId", "order": "ASCENDING"},
+        {"field": "createdAt", "order": "DESCENDING"}
+      ]
+    },
+    {
+      "collectionGroup": "feedPosts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {"field": "profissionalId", "order": "ASCENDING"},
+        {"field": "createdAt", "order": "DESCENDING"}
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

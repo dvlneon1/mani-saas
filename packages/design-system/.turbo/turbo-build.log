@@ -1,0 +1,38 @@
+
+> @mani/design-system@0.0.1 build
+> tsc
+
+src/components/atoms/Icon.tsx(352,14): error TS2742: The inferred type of 'Icon' cannot be named without a reference to '../../../../../node_modules/react-native/types_generated/src/private/webapis/dom/nodes/ReactNativeElement'. This is likely not portable. A type annotation is necessary.
+src/components/atoms/RadioGroup.tsx(41,14): error TS2742: The inferred type of 'RadioGroup' cannot be named without a reference to '../../../../../node_modules/react-native/types_generated/src/private/webapis/dom/nodes/ReactNativeElement'. This is likely not portable. A type annotation is necessary.
+src/components/atoms/Select.tsx(59,14): error TS2742: The inferred type of 'Select' cannot be named without a reference to '../../../../../node_modules/react-native/types_generated/src/private/webapis/dom/nodes/ReactNativeElement'. This is likely not portable. A type annotation is necessary.
+src/components/atoms/Slider.tsx(41,14): error TS2742: The inferred type of 'Slider' cannot be named without a reference to '../../../../../node_modules/react-native/types_generated/src/private/webapis/dom/nodes/ReactNativeElement'. This is likely not portable. A type annotation is necessary.
+src/components/atoms/Switch.tsx(49,14): error TS2742: The inferred type of 'Switch' cannot be named without a reference to '../../../../../node_modules/react-native/types_generated/src/private/webapis/dom/nodes/ReactNativeElement'. This is likely not portable. A type annotation is necessary.
+src/components/atoms/Textarea.tsx(71,9): error TS2322: Type '{ value: string; onChangeText: (value: string) => void; placeholder: string; multiline: true; numberOfLines: number; maxLength: number; disabled: boolean; editable: boolean; className: string; style: { ...; }; }' is not assignable to type 'IntrinsicAttributes & Omit<TextInputProps, "ref"> & { ref?: Ref<_TextInputInstance>; }'.
+  Property 'disabled' does not exist on type 'IntrinsicAttributes & Omit<TextInputProps, "ref"> & { ref?: Ref<_TextInputInstance>; }'.
+src/components/molecules/FormField.tsx(213,14): error TS2322: Type '{ secureTextEntry: boolean; maxLength: number; inputMode: any; autoComplete: any; value: any; onChange: (val: any) => void; onBlur: () => void; placeholder: string; disabled: boolean; error: boolean; className: string; }' is not assignable to type 'InputProps'.
+  Types of property 'error' are incompatible.
+    Type 'boolean' is not assignable to type 'string'.
+src/components/molecules/PostCard.tsx(75,14): error TS2742: The inferred type of 'PostCard' cannot be named without a reference to '../../../../../node_modules/react-native/types_generated/src/private/webapis/dom/nodes/ReactNativeElement'. This is likely not portable. A type annotation is necessary.
+src/components/molecules/SearchBar.tsx(113,11): error TS2322: Type '{ value: string; onChangeText: (text: string) => void; onSubmitEditing: () => void; onFocus: () => void; onBlur: () => void; placeholder: string; placeholderTextColor: string; className: string; disabled: boolean; autoFocus: boolean; autoComplete: string; accessibilityLabel: string; }' is not assignable to type 'IntrinsicAttributes & Omit<TextInputProps, "ref"> & { ref?: Ref<_TextInputInstance>; }'.
+  Property 'disabled' does not exist on type 'IntrinsicAttributes & Omit<TextInputProps, "ref"> & { ref?: Ref<_TextInputInstance>; }'.
+src/components/molecules/Stepper.tsx(68,14): error TS2742: The inferred type of 'Stepper' cannot be named without a reference to '../../../../../node_modules/react-native/types_generated/src/private/webapis/dom/nodes/ReactNativeElement'. This is likely not portable. A type annotation is necessary.
+src/components/molecules/TagInput.tsx(178,13): error TS2322: Type '{ value: string; onChangeText: (text: string) => void; onFocus: () => void; onBlur: () => void; onKeyPress: (e: any) => void; onKeyDown: (e: any) => void; placeholder: string; placeholderTextColor: string; ... 6 more ...; accessibilityLabel: string; }' is not assignable to type 'IntrinsicAttributes & Omit<TextInputProps, "ref"> & { ref?: Ref<_TextInputInstance>; }'.
+  Property 'disabled' does not exist on type 'IntrinsicAttributes & Omit<TextInputProps, "ref"> & { ref?: Ref<_TextInputInstance>; }'.
+src/components/molecules/TransactionItem.tsx(68,14): error TS2742: The inferred type of 'TransactionItem' cannot be named without a reference to '../../../../../node_modules/react-native/types_generated/src/private/webapis/dom/nodes/ReactNativeElement'. This is likely not portable. A type annotation is necessary.
+src/components/organisms/BottomTabBar.tsx(58,14): error TS2742: The inferred type of 'BottomTabBar' cannot be named without a reference to '../../../../../node_modules/react-native/types_generated/src/private/webapis/dom/nodes/ReactNativeElement'. This is likely not portable. A type annotation is necessary.
+src/components/organisms/Calendar.tsx(69,14): error TS2742: The inferred type of 'Calendar' cannot be named without a reference to '../../../../../node_modules/react-native/types_generated/src/private/webapis/dom/nodes/ReactNativeElement'. This is likely not portable. A type annotation is necessary.
+src/components/organisms/FeedGrid.tsx(151,9): error TS2322: Type '{ children: (string | Element | Element[])[]; className: string; contentContainerStyle: { paddingHorizontal: number; paddingVertical: number; gap: number; paddingBottom: number; }; ... 4 more ...; onScroll: ({ nativeEvent }: any) => void; }' is not assignable to type 'IntrinsicAttributes & Omit<ScrollViewProps, "ref"> & { ref?: Ref<ScrollViewInstance>; }'.
+  Property 'refreshing' does not exist on type 'IntrinsicAttributes & Omit<ScrollViewProps, "ref"> & { ref?: Ref<ScrollViewInstance>; }'.
+src/components/organisms/FilterDrawer.tsx(241,11): error TS2322: Type '{ onPress: () => void; className: string; style: any; accessibilityHidden: boolean; }' is not assignable to type 'IntrinsicAttributes & Omit<PressableProps, "ref"> & { ref?: Ref<ReactNativeElement>; }'.
+  Property 'accessibilityHidden' does not exist on type 'IntrinsicAttributes & Omit<PressableProps, "ref"> & { ref?: Ref<ReactNativeElement>; }'. Did you mean 'accessibilityHint'?
+src/components/organisms/FolderDrawer.tsx(151,11): error TS2322: Type '{ onPress: () => void; className: string; style: any; accessibilityHidden: boolean; }' is not assignable to type 'IntrinsicAttributes & Omit<PressableProps, "ref"> & { ref?: Ref<ReactNativeElement>; }'.
+  Property 'accessibilityHidden' does not exist on type 'IntrinsicAttributes & Omit<PressableProps, "ref"> & { ref?: Ref<ReactNativeElement>; }'. Did you mean 'accessibilityHint'?
+src/components/organisms/ImagePicker.tsx(74,14): error TS2742: The inferred type of 'ImagePicker' cannot be named without a reference to '../../../../../node_modules/react-native/types_generated/src/private/webapis/dom/nodes/ReactNativeElement'. This is likely not portable. A type annotation is necessary.
+src/components/organisms/TopBar.tsx(62,14): error TS2742: The inferred type of 'TopBar' cannot be named without a reference to '../../../../../node_modules/react-native/types_generated/src/private/webapis/dom/nodes/ReactNativeElement'. This is likely not portable. A type annotation is necessary.
+npm error Lifecycle script `build` failed with error:
+npm error code 1
+npm error path C:\Users\uzuma\Desktop\mani_crm\nail-designers-app\packages\design-system
+npm error workspace @mani/design-system@0.0.1
+npm error location C:\Users\uzuma\Desktop\mani_crm\nail-designers-app\packages\design-system
+npm error command failed
+npm error command C:\WINDOWS\system32\cmd.exe /d /s /c tsc

@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": ".",
+    "composite": true,
+    "jsx": "react-jsx",
+    "lib": ["ES2022", "DOM"],
+    "noEmit": false,
+    "strict": false,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "strictFunctionTypes": false,
+    "strictBindCallApply": false,
+    "strictPropertyInitialization": false,
+    "types": ["react", "react-native"]
+  },
+  "include": ["src/**/*", "*.ts", "*.json"],
+  "exclude": ["node_modules", "dist"]
+}

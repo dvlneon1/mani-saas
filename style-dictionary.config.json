@@ -1,0 +1,44 @@
+{
+  "source": ["tokens.json"],
+  "platforms": {
+    "figma": {
+      "transformGroup": "figma",
+      "buildPath": "figma/",
+      "files": [
+        {
+          "destination": "tokens.json",
+          "format": "json",
+          "options": {
+            "outputReferences": true
+          }
+        }
+      ]
+    },
+    "react-native": {
+      "transformGroup": "react-native",
+      "buildPath": "packages/design-system/src/theme/",
+      "files": [
+        {
+          "destination": "tokens.ts",
+          "format": "typescript/es6",
+          "options": {
+            "prefix": "tokens"
+          }
+        }
+      ]
+    },
+    "css": {
+      "transformGroup": "css",
+      "buildPath": "packages/design-system/",
+      "files": [
+        {
+          "destination": "tokens.css",
+          "format": "css/variables",
+          "options": {
+            "prefix": "mani"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,333 @@
+openapi: 3.0.3
+info:
+  title: Mani — Webhooks API
+  description: |
+    Contrato OpenAPI 3.0 para os webhooks do Projeto Mani (SaaS nail designers).
+    Endpoints internos que recebem eventos de Asaas (pagamentos) e Evolution (WhatsApp).
+  version: 1.0.0
+  contact:
+    name: Projeto Mani
+    email: dev@mani.app
+servers:
+  - url: https://api.mani.app
+    description: Produção (Vercel)
+  - url: http://localhost:3000
+    description: Desenvolvimento local
+tags:
+  - name: asaas
+    description: Webhooks de pagamentos Asaas (PIX, cartão, boleto)
+  - name: evolution
+    description: Webhooks de mensagens Evolution (WhatsApp)
+paths:
+  /webhooks/asaas:
+    post:
+      tags: [asaas]
+      summary: Recebe eventos de pagamento do Asaas
+      description: |
+        Endpoint que recebe notificações do Asaas para pagamentos PIX, cartão e boleto.
+        Eventos suportados: payment.created, payment.confirmed, payment.overdue,
+        payment.refunded, installment.created.
+        A assinatura da requisição é validada via header `access_token` (token do Asaas)
+        e, quando disponível, HMAC do corpo da requisição.
+      operationId: asaasWebhook
+      security:
+        - AsaasSignature: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AsaasEvent'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AsaasEvent'
+      responses:
+        '200':
+          description: Evento recebido e processado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookResponse'
+        '400':
+          description: Payload inválido ou assinatura ausente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Assinatura do Asaas inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Erro interno ao processar o evento
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /webhooks/evolution:
+    post:
+      tags: [evolution]
+      summary: Recebe eventos de mensagens e conexão do Evolution
+      description: |
+        Endpoint que recebe notificações do Evolution API (WhatsApp).
+        Eventos suportados: messages.upsert, messages.update, connection.update.
+        A assinatura é validada via header de assinatura da Evolution (chave compartilhada
+        configurada nas variáveis de ambiente).
+      operationId: evolutionWebhook
+      security:
+        - EvolutionSignature: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvolutionEvent'
+      responses:
+        '200':
+          description: Evento recebido e processado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookResponse'
+        '400':
+          description: Payload inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Assinatura da Evolution inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Erro interno ao processar o evento
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  securitySchemes:
+    AsaasSignature:
+      type: apiKey
+      in: header
+      name: access_token
+      description: Token de autenticação do Asaas enviado no header da requisição do webhook.
+    EvolutionSignature:
+      type: apiKey
+      in: header
+      name: x-evolution-signature
+      description: Assinatura do webhook da Evolution (chave compartilhada configurada no ambiente).
+  schemas:
+    AsaasEvent:
+      type: object
+      required:
+        - event
+        - payment
+      properties:
+        event:
+          type: string
+          enum:
+            - payment.created
+            - payment.confirmed
+            - payment.overdue
+            - payment.refunded
+            - installment.created
+          description: Tipo do evento de pagamento do Asaas
+          example: payment.confirmed
+        payment:
+          type: object
+          required:
+            - id
+            - status
+            - value
+            - dateCreated
+          properties:
+            id:
+              type: string
+              description: ID do pagamento no Asaas
+              example: pay_1234567890
+            status:
+              type: string
+              description: Status do pagamento no Asaas
+              enum: [PENDING, RECEIVED, CONFIRMED, OVERDUE, REFUNDED, CANCELLED]
+              example: CONFIRMED
+            value:
+              type: number
+              description: Valor do pagamento em BRL
+              example: 150.00
+            dateCreated:
+              type: string
+              format: date-time
+              description: Data de criação do pagamento
+              example: '2026-11-02T10:30:00Z'
+            paymentDate:
+              type: string
+              format: date-time
+              description: Data de confirmação/pagamento
+              example: '2026-11-02T10:35:00Z'
+            paymentMethod:
+              type: string
+              description: Método de pagamento
+              enum: [PIX, CREDIT_CARD, BOLETO, DEBIT_CARD]
+              example: PIX
+            invoiceUrl:
+              type: string
+              description: URL da fatura/boleto
+              example: https://dashboard.asaas.com/payments/pay_1234567890
+            externalReference:
+              type: string
+              description: Referência externa (id do agendamento no Mani)
+              example: apt_9876543210
+            customer:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: cus_1122334455
+                name:
+                  type: string
+                  example: Maria Silva
+                email:
+                  type: string
+                  example: maria@email.com
+                phone:
+                  type: string
+                  example: '+5511999999999'
+            installment:
+              type: object
+              description: Dados da parcela (apenas para installment.created)
+              properties:
+                number:
+                  type: integer
+                  example: 1
+                total:
+                  type: integer
+                  example: 3
+                value:
+                  type: number
+                  example: 50.00
+    EvolutionEvent:
+      type: object
+      required:
+        - event
+        - data
+      properties:
+        event:
+          type: string
+          enum:
+            - messages.upsert
+            - messages.update
+            - connection.update
+          description: Tipo do evento do Evolution
+          example: messages.upsert
+        instance:
+          type: string
+          description: Nome da instância do Evolution
+          example: mani_whatsapp_01
+        data:
+          type: object
+          description: Payload do evento (varia conforme o tipo)
+          oneOf:
+            - $ref: '#/components/schemas/EvolutionMessageUpsert'
+            - $ref: '#/components/schemas/EvolutionMessageUpdate'
+            - $ref: '#/components/schemas/EvolutionConnectionUpdate'
+    EvolutionMessageUpsert:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: object
+          required:
+            - id
+            - body
+            - from
+            - to
+          properties:
+            id:
+              type: string
+              example: '3EB01234567890@c.us'
+            body:
+              type: string
+              description: Texto da mensagem
+              example: 'Quero confirmar meu agendamento de amanhã'
+            from:
+              type: string
+              description: Remetente (número do cliente)
+              example: '+5511999999999'
+            to:
+              type: string
+              description: Destinatário (número do estúdio)
+              example: '+5511888888888'
+            type:
+              type: string
+              example: chat
+            timestamp:
+              type: integer
+              description: Timestamp Unix da mensagem
+              example: 1730553000
+    EvolutionMessageUpdate:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: object
+          required:
+            - id
+            - status
+          properties:
+            id:
+              type: string
+            status:
+              type: string
+              enum: [sent, delivered, read, deleted]
+              example: read
+    EvolutionConnectionUpdate:
+      type: object
+      required:
+        - connection
+      properties:
+        connection:
+          type: object
+          required:
+            - status
+          properties:
+            status:
+              type: string
+              enum: [open, close, connecting]
+              example: open
+    WebhookResponse:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum: [ok]
+          example: ok
+        receivedAt:
+          type: string
+          format: date-time
+          example: '2026-11-02T10:35:10Z'
+        event:
+          type: string
+          example: payment.confirmed
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          example: invalid_signature
+        message:
+          type: string
+          example: Assinatura do webhook inválida
+        statusCode:
+          type: integer
+          example: 400

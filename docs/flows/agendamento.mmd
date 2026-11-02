@@ -1,0 +1,52 @@
+```mermaid
+flowchart TD
+    A[Botão + Agendar] --> B{Tela Agenda Semana}
+    B --> C[Selecionar Dia]
+    C --> D[Tela Agenda Dia - Slots Livres]
+    D --> E[Selecionar Horário]
+    E --> F[Modal Criar Agendamento]
+    F --> G[Selecionar Cliente]
+    G --> H{Cliente Existe?}
+    H -->|Não| I[Criar Cliente Rápido]
+    I --> J[Nome + Telefone]
+    J --> K[Salvar Cliente]
+    K --> F
+    H -->|Sim| F
+    F --> L[Selecionar Serviço(s)]
+    L --> M[Adicionar Observação Opcional]
+    M --> N[Confirmar Agendamento]
+    N --> O[Criar no Supabase]
+    O --> P[Notificação Push/In-App]
+    P --> Q[Status: AGENDADO]
+    Q --> R[Tela Detalhe Agendamento]
+    R --> S{Cliente Chegou?}
+    S -->|Sim| T[Botão Check-in]
+    T --> U[Status: EM_ATENDIMENTO]
+    U --> V[Tela Atendimento]
+    V --> W[Timer Iniciado]
+    W --> X[Checklist Serviço]
+    X --> Y[Fotos Antes/Durante]
+    Y --> Z[Finalizar Atendimento]
+    Z --> AA[Modal Pagamento]
+    AA --> AB{Tipo Pagamento}
+    AB -->|PIX| AC[QR Code PIX]
+    AB -->|Cartão| AD[Link Stripe/SumUp]
+    AB -->|Dinheiro| AE[Confirmar Recebido]
+    AB -->|Parcelado| AF[Definir Parcelas]
+    AF --> AG[Gerar Parcelas no Financeiro]
+    AC --> AH[Confirmar Pagamento]
+    AD --> AH
+    AE --> AH
+    AG --> AH
+    AH --> AI[Status: FINALIZADO]
+    AI --> AJ[Gerar Comprovante PDF]
+    AJ --> AK[Notificar Cliente WhatsApp]
+    AK --> AL[Volta para Hoje Tab]
+    
+    style A fill:#8B5CF6,color:#fff
+    style N fill:#10B981,color:#fff
+    style T fill:#F97316,color:#fff
+    style Z fill:#10B981,color:#fff
+    style AH fill:#10B981,color:#fff
+    style AL fill:#EC4899,color:#fff
+```
