@@ -36,29 +36,8 @@ jobs:
       - run: npm ci
       - run: npm test -- --passWithNoTests
 
-  build-mobile:
-    name: Build Mobile App (Expo)
-    runs-on: ubuntu-latest
-    needs: typecheck
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-      - run: npm ci
-      - run: cd apps/mobile && npm ci
-      - run: cd apps/mobile && npx expo export --platform all --non-interactive
-        env:
-          EXPO_PUBLIC_FIREBASE_API_KEY: ${{ secrets.EXPO_PUBLIC_FIREBASE_API_KEY }}
-          EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ secrets.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN }}
-          EXPO_PUBLIC_FIREBASE_PROJECT_ID: ${{ secrets.EXPO_PUBLIC_FIREBASE_PROJECT_ID }}
-          EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ secrets.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET }}
-          EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
-          EXPO_PUBLIC_FIREBASE_APP_ID: ${{ secrets.EXPO_PUBLIC_FIREBASE_APP_ID }}
-
-  deploy-web:
-    name: Deploy Admin Web to Vercel
+  build-web:
+    name: Build Admin Web
     runs-on: ubuntu-latest
     needs: typecheck
     if: github.ref == 'refs/heads/main'
@@ -78,17 +57,18 @@ jobs:
           NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ secrets.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET }}
           NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
           NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
-      - uses: amondnet/vercel-action@v25
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: '--prod'
 
-  deploy-mobile:
-    name: Deploy Mobile to EAS
+  build-mobile:
+    name: Build Mobile App (Expo)
     runs-on: ubuntu-latest
-    needs: build-mobile
+    needs: typecheck
     if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
@@ -96,12 +76,11 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
       - run: npm ci --prefix apps/mobile
-      - run: npx eas-cli --version
-      - run: cd apps/mobile && npx eas-cli build --platform all --auto-submit --non-interactive
+      - name: Install EAS CLI
+        run: npm install -g eas-cli@latest
+      - name: Build with EAS
+        run: cd apps/mobile && npx eas-cli build --platform all --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           EXPO_PUBLIC_FIREBASE_API_KEY: ${{ secrets.EXPO_PUBLIC_FIREBASE_API_KEY }}
@@ -114,7 +93,11 @@ jobs:
   notify:
     name: Notify Deployment
     runs-on: ubuntu-latest
-    needs: [deploy-web, deploy-mobile]
+    needs: [build-web, build-mobile]
+    if: github.ref == 'refs/heads/main' && success()
     steps:
       - name: Notify success
-        run: echo "Deployment complete! Web: ${{ steps.deploy-web.outputs.vcerl-deployment-url }} Mobile: EAS build submitted"
+        run: |
+          echo "🚀 Deployment complete!"
+          echo "Web: ${{ steps.deploy-web.outputs.deployment_url || 'Check Vercel dashboard' }}"
+          echo "Mobile: EAS build submitted - check Expo dashboard"
