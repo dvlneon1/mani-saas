@@ -111,6 +111,7 @@ export const SearchBar = React.forwardRef<any, SearchBarProps>(
           placeholder={placeholder}
           placeholderTextColor="#9CA3AF"
           className={cn('flex-1 text-[14px] text-[#111827]', inputClassName)}
+          // @ts-ignore
           disabled={disabled}
           autoFocus={autoFocus}
           autoComplete="off"

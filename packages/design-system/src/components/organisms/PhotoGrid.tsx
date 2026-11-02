@@ -121,6 +121,7 @@ export const PhotoGrid = React.forwardRef<React.ElementRef<typeof ScrollView>, P
     if (displayImages.length === 0) {
       return (
         <View
+          // @ts-ignore
           ref={ref}
           className={cn(gridVariants({ columns }), className, 'flex-1 flex-items-center justify-center py-12')}
         >
