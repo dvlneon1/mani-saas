@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "framework": null,
+  "buildCommand": "cd apps/admin-web && npm install --legacy-peer-deps --no-audit --no-fund && npx next build --no-lint",
+  "outputDirectory": "apps/admin-web/.next",
+  "installCommand": "npm install --legacy-peer-deps --no-audit --no-fund",
+  "devCommand": "cd apps/admin-web && npm run dev",
+  "regions": ["iad1"]
+}
