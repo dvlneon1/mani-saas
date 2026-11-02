@@ -8,7 +8,7 @@ on:
 
 jobs:
   typecheck:
-    name: TypeScript Type Check
+    name: TypeScript Type Check (Admin Web)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,7 +17,8 @@ jobs:
           node-version: '20'
           cache: 'npm'
       - run: npm install
-      - run: npm run typecheck
+      - run: cd apps/admin-web && npm install
+      - run: cd apps/admin-web && npm run typecheck
 
   build-web:
     name: Build Admin Web
