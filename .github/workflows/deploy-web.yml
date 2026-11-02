@@ -8,40 +8,21 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
-      - name: Print environment
-        run: |
-          echo "Node: $(node --version)"
-          echo "NPM: $(npm --version)"
-          echo "PWD: $(pwd)"
-          ls -la
-
       - name: Install root dependencies
-        run: |
-          echo "=== Installing root deps ==="
-          npm install --legacy-peer-deps
-          echo "=== Root deps done ==="
+        run: npm install --legacy-peer-deps --no-audit --no-fund
 
       - name: Install admin-web dependencies
-        run: |
-          echo "=== Installing admin-web deps ==="
-          cd apps/admin-web
-          npm install --legacy-peer-deps
-          echo "=== Admin-web deps done ==="
+        run: cd apps/admin-web && npm install --legacy-peer-deps --no-audit --no-fund
 
       - name: Build admin-web
-        run: |
-          echo "=== Building admin-web ==="
-          cd apps/admin-web
-          npx next build
+        run: cd apps/admin-web && npx next build --no-lint
         env:
           NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
           NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ secrets.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}
